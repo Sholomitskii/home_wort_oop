@@ -19,13 +19,21 @@ class Student:
         else:
             return 'Ошибка'
     
-    def __str__(self):
+    def aver_rate(self):
         a = []
         for el in self.grades.values():
             a += el
-        aver_rate =  sum(a)/len(a)
-        output = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {aver_rate}\nКурсы в процессе обучения: {self.courses_in_progress}\nЗавершенные курсы: {self.finished_courses}'
+        return (sum(a)/len(a)) 
+
+    def __str__(self):
+        output = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.aver_rate()}\nКурсы в процессе обучения: {self.courses_in_progress}\nЗавершенные курсы: {self.finished_courses}'
         return output
+    
+    def __lt__(self,other):
+        if not isinstance(other, Student):
+            print(f'{other} - не студент!')
+            return
+        return self.aver_rate() < other.aver_rate()
     
 class Mentor:
     def __init__(self, name, surname):
@@ -37,14 +45,22 @@ class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grades = {}
-    
-    def __str__(self):
+
+    def aver_rate(self):
         a = []
         for el in self.grades.values():
             a += el
-        aver_rate =  sum(a)/len(a)
-        output = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {aver_rate}'
-        return output  
+        return (sum(a)/len(a)) 
+
+    def __str__(self):
+        output = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.aver_rate()}'
+        return output 
+
+    def __lt__(self,other):
+        if not isinstance(other, Lecturer):
+            print(f'{other} - не лектор!')
+            return
+        return self.aver_rate() < other.aver_rate() 
 
 class Reviewer(Mentor):
     def __str__(self):
@@ -127,3 +143,6 @@ st_average_rating(stud_list_1 , 'Python')
 st_average_rating(stud_list_1 , 'Git')
 
 lec_average_rating(lect_list_1 , 'Python')
+
+print(best_student < notbest_student)
+print(favorite_lecturer < gannibal_lecturer)
